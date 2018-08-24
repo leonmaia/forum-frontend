@@ -1,11 +1,11 @@
 @import services.PaginationService
-
 @this(webJarsUtil: org.webjars.play.WebJarsUtil)
 @(pagedResult: PagedResult[Reply], topic: Option[Topic])
 
 @replies = @{
     pagedResult.entries
 }
+
 @page = @{
     pagedResult.pageNumber
 }
@@ -13,6 +13,7 @@
 @currentPage = @{
     pagedResult.pageNumber
 }
+
 @totalPages = @{
     pagedResult.totalPages
 }
@@ -20,9 +21,11 @@
 @endPage = @{
     PaginationService.calculateEndPage(currentPage, totalPages)
 }
+
 @startPage = @{
     PaginationService.calculateStartPage(currentPage)
 }
+
 @isPreviousEnabled = @{
     PaginationService.isPreviousLinkEnabled(currentPage, startPage)
 }
@@ -32,38 +35,48 @@
 }
 
 @main() {
-<div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
-    <div class="lh-100">
-        <h6 class="mb-0 text-white lh-100">Forum</h6>
-    </div>
-</div>
-
-<div class="my-3 p-3 bg-white rounded shadow-sm">
-    <h6 class="border-bottom border-gray pb-2 mb-0">Posted by @topic.get.email</h6>
-    <div class="media text-muted pt-3">
-        <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
-        <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-            <strong class="d-block text-gray-dark">@topic.get.title</strong> @topic.get.body
-        </p>
-    </div>
-</div>
-
-<div class="my-3 p-3 bg-white rounded shadow-sm">
-    <h6 class="border-bottom border-gray pb-2 mb-0">Most recent replies</h6>
-    @for(reply
-    <- replies) { <div class="media text-muted pt-3">
-        <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
-        <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-            <div class="d-flex justify-content-between align-items-center w-100">
-                <strong class="text-gray-dark">@reply.email</strong>
-            </div>
-            <span class="d-block">@reply.body</span>
+    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
+        <div class="lh-100">
+            <h6 class="mb-0 text-white lh-100">Forum</h6>
         </div>
-</div>
-}
-<small class="d-block text-right mt-3">
-                </small> @pagination(isPreviousEnabled, isNextEnabled, currentPage, startPage, endPage)
-</div>
+    </div>
+
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <h6 class="border-bottom border-gray pb-2 mb-0">Posted by @topic.get.email</h6>
+        <div class="media text-muted pt-3">
+            <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
+            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                <strong class="d-block text-gray-dark">@topic.get.title</strong> @topic.get.body
+            </p>
+        </div>
+    </div>
+
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <h6 class="border-bottom border-gray pb-2 mb-0">Most recent replies</h6>
+        @for(reply <- replies) {
+            <div class="media text-muted pt-3">
+                <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
+                <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <strong class="text-gray-dark">@reply.email</strong>
+                    </div>
+                    <span class="d-block">@reply.body</span>
+                </div>
+            </div>
+        }
+
+        <form method="POST" autocomplete="on">
+            <div class="form-group">
+                <input type="email" class="form-control" name="email" placeholder="email address">
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" name="body" rows="3" placeholder="Text"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <small class="d-block text-right mt-3">
+        </small> @pagination(isPreviousEnabled, isNextEnabled, currentPage, startPage, endPage)
+    </div>
 }
 
 @webJarsUtil.locate("bootstrap.min.css").css()

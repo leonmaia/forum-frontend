@@ -11,4 +11,5 @@ libraryDependencies += guice
 libraryDependencies += ws
 libraryDependencies += "org.webjars" % "bootstrap" % "4.1.3"
 libraryDependencies += "org.webjars" %% "webjars-play" % "2.6.3"
+libraryDependencies += "org.mockito" % "mockito-core" % "2.10.0" % "test"
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test

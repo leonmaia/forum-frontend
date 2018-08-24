@@ -10,13 +10,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class HomeController @Inject()(indexTemplate: views.html.index, topicService: TopicService)(implicit assetsFinder: AssetsFinder)
   extends InjectedController {
 
-
-  def index(page: Int) = Action.async { request =>
-    page.toInt match {
-      case x =>
-        topicService.list(x) map { topics =>
-          Ok(indexTemplate.render(topics))
-        }
+  def index(page: Int) = Action.async { _ =>
+    topicService.list(page) map { topics =>
+      Ok(indexTemplate.render(topics))
     }
   }
 }

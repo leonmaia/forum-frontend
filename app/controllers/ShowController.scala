@@ -1,24 +1,17 @@
 package controllers
 
 import javax.inject.Inject
-import play.api.mvc.InjectedController
-import services.TopicService
+import play.api.mvc.{Action, AnyContent, InjectedController}
+import services.ShowService
+
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class ShowController @Inject()(topicService: TopicService, showTemplate: views.html.show)(implicit assetsFinder: AssetsFinder)
+class ShowController @Inject()(showService: ShowService, showTemplate: views.html.show)(implicit assetsFinder: AssetsFinder)
   extends InjectedController {
 
-  def index(id: Int) = Action.async { request =>
-    request.getQueryString("page").fold(1)(_.toInt) match {
-      case page if page == 1 =>
-        for {
-          topic <- topicService.get(id)
-          replies <- topicService.getWithReplies(id, page)
-        } yield Ok(showTemplate.render(replies, Option(topic)))
-      case page =>
-        for {
-          replies <- topicService.getWithReplies(id, page)
-        } yield Ok(showTemplate.render(replies, Option.empty))
+  def index(id: Int): Action[AnyContent] = Action.async { request =>
+    showService.show(id, request) map { result =>
+      Ok(showTemplate.render(result._1, result._2))
     }
   }
 }
