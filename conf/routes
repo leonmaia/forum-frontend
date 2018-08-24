@@ -1,13 +1,17 @@
 # Routes
-# This file defines all application routes (Higher priority routes first)
-# https://www.playframework.com/documentation/latest/ScalaRouting
-# ~~~~
 
-# An example controller showing a sample home page
-GET     /                           controllers.HomeController.index(page: Int ?= 1)
+GET     /                            controllers.HomeController.index(page: Int ?= 1)
 
-# Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /topics/:id/replies          controllers.ShowController.index(id: Int)
 
-# WebJars
-->          /webjars                webjars.Routes
++ nocsrf
+POST    /topics/:id/replies          controllers.ReplyCreationController.submit(id: Int)
+
+GET     /topics/                     controllers.TopicCreationController.index()
+
++ nocsrf
+POST    /topics/                     controllers.TopicCreationController.submit()
+
+GET     /assets/*file                controllers.Assets.versioned(path="/public", file: Asset)
+
+->      /webjars                     webjars.Routes
