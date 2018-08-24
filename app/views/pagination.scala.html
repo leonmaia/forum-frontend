@@ -1,0 +1,35 @@
+@(isPreviousEnabled: Boolean, isNextEnabled: Boolean, currentPage: Int, startPage: Int, endPage: Int)
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+        @if(isPreviousEnabled) {
+            <li class="page-item">
+                <a class="page-link" href="@routes.HomeController.index(currentPage - 1)" tabindex="-1">
+                    Previous</a>
+            </li>
+        } else {
+            <li class="page-item disabled">
+                <a class="page-link" href="@routes.HomeController.index(currentPage - 1)" tabindex="-1">
+                    Previous</a>
+            </li>
+        }
+        @for(page <- startPage to endPage) {
+
+            @if(page == currentPage) {
+                <li class="page-item active"><a class="page-link" href="#">@page</a></li>
+            } else {
+                <li class="page-item">
+                    <a class="page-link" href="@routes.HomeController.index(page)">@page</a>
+                </li>
+            }
+        }
+        @if(isNextEnabled) {
+            <li class="page-item">
+                <a class="page-link" href="@routes.HomeController.index(currentPage + 1)">Next</a>
+            </li>
+        } else {
+            <li class="page-item disabled">
+                <a class="page-link" href="@routes.HomeController.index(currentPage + 1)">Next</a>
+            </li>
+        }
+    </ul>
+</nav>
