@@ -5,7 +5,6 @@ import play.api.mvc._
 import services.TopicService
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 
 @Singleton
 class HomeController @Inject()(indexTemplate: views.html.index, topicService: TopicService)(implicit assetsFinder: AssetsFinder)
