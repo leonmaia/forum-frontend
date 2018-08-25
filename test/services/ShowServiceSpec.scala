@@ -4,7 +4,6 @@ import models.{PagedResult, Reply, Topic}
 import org.mockito.Mockito._
 import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
-import play.api.mvc.{AnyContent, Request}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
@@ -32,10 +31,8 @@ class ShowServiceSpec extends PlaySpec with MockitoSugar {
             Topic("lyn@gmail.com", "What is happening?", "", Option(1))
           )
         )
-      val mockedRequest = mock[Request[AnyContent]]
-      when(mockedRequest.getQueryString("page")).thenReturn(Option("1"))
 
-      val result = Await.result(service.show(1, mockedRequest), 500.millis)
+      val result = Await.result(service.show(1, 1), 500.millis)
       result._1.entries.length mustBe 1
       result._2.get.email mustBe "lyn@gmail.com"
     }
@@ -50,10 +47,7 @@ class ShowServiceSpec extends PlaySpec with MockitoSugar {
           )
         )
 
-      val mockedRequest = mock[Request[AnyContent]]
-      when(mockedRequest.getQueryString("page")).thenReturn(Option("2"))
-
-      val result = Await.result(service.show(1, mockedRequest), 500.millis)
+      val result = Await.result(service.show(1, 2), 500.millis)
       result._1.entries.length mustBe 1
     }
   }
