@@ -1,5 +1,4 @@
 @import services.PaginationService
-@this(webJarsUtil: org.webjars.play.WebJarsUtil)
 @(result: PagedResult[Topic])
 
 @topics = @{
@@ -54,5 +53,3 @@
         @pagination(isPreviousEnabled, isNextEnabled, currentPage, startPage, endPage)
     </div>
 }
-@webJarsUtil.locate("bootstrap.min.css").css()
-@webJarsUtil.locate("bootstrap.min.js").script()

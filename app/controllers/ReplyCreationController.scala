@@ -11,7 +11,7 @@ import services.ReplyService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class ReplyCreationController @Inject()(showTemplate: views.html.show, replycService: ReplyService)(implicit assetsFinder: AssetsFinder)
+class ReplyCreationController @Inject()(replyService: ReplyService)(implicit assetsFinder: AssetsFinder)
   extends InjectedController {
 
   val replyForm = Form(
@@ -25,7 +25,7 @@ class ReplyCreationController @Inject()(showTemplate: views.html.show, replycSer
   def submit(id: Int) = Action.async { implicit request =>
     val reply = replyForm.bindFromRequest.get
 
-    replycService.save(reply) map { _ =>
+    replyService.save(reply.copy(topicId = Option(id))) map { _ =>
       Redirect(routes.ShowController.index(id))
     }
   }

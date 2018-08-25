@@ -1,0 +1,35 @@
+version: '3'
+services:
+
+  frontend:
+    image: leonmaia/forum-frontend
+    command: java -jar forum.jar
+    ports:
+      - "8080"
+    environment:
+      - FORUM_SERVICE_HOST=api
+    depends_on:
+      - api
+      - forumdb
+      - redisdb
+
+  api:
+    image: leonmaia/forum-service
+    command: java -jar forum.jar -http.port=:7719 -forumdb.host=forumdb -forumdb.user=user -forumdb.password=pass -redisdb.host=redisdb
+    ports:
+      - "9990:9990"
+    expose:
+      - "7719"
+    depends_on:
+      - forumdb
+      - redisdb
+
+  forumdb:
+    image: postgres:10-alpine
+    environment:
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_USER=user
+      - POSTGRES_DB=forum
+
+  redisdb:
+    image: redis:5.0-rc4-alpine
