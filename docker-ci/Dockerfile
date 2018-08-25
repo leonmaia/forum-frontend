@@ -1,4 +1,4 @@
-FROM openjdk:8u131-jre-alpine
+FROM openjdk:8u171-jdk-alpine3.8
 LABEL maintainer="Leon Maia leontmaia@gmail.com"
 
 RUN apk add --no-cache curl bash openssl bc
