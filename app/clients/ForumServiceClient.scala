@@ -6,6 +6,8 @@ import play.api.libs.ws.WSClient
 
 import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.{Failure, Success, Try}
+import play.api.Logger
 
 case class ForumServiceClient @Inject()(ws: WSClient)(implicit ec: ExecutionContext) {
   val host: String = Option(System.getenv("FORUM_SERVICE_HOST")).getOrElse("localhost")
@@ -20,7 +22,13 @@ case class ForumServiceClient @Inject()(ws: WSClient)(implicit ec: ExecutionCont
       .get()
       .map {
         response =>
-          response.json.as[PagedResult[Topic]]
+          Try(response.json.as[PagedResult[Topic]]) match {
+            case Success(topics) => topics
+            case Failure(f) =>
+              val errorMessage = "Error while retrieving topic list"
+              Logger.error(errorMessage, f)
+              throw new IllegalStateException(errorMessage)
+          }
       }
   }
 
@@ -28,7 +36,13 @@ case class ForumServiceClient @Inject()(ws: WSClient)(implicit ec: ExecutionCont
     ws.url(s"$baseUrl/topics")
       .post(topic) map {
       response =>
-        response.json.as[Topic]
+        Try(response.json.as[Topic]) match {
+          case Success(resultTopic) => resultTopic
+          case Failure(f) =>
+            val errorMessage = "Error while saving topic"
+            Logger.error(errorMessage, f)
+            throw new IllegalStateException(errorMessage)
+        }
     }
   }
 
@@ -36,7 +50,13 @@ case class ForumServiceClient @Inject()(ws: WSClient)(implicit ec: ExecutionCont
     ws.url(s"$baseUrl/topics/$id")
       .get() map {
       response =>
-        response.json.as[Topic]
+        Try(response.json.as[Topic]) match {
+          case Success(resultTopic) => resultTopic
+          case Failure(f) =>
+            val errorMessage = "Error while retrieving topic"
+            Logger.error(errorMessage, f)
+            throw new IllegalStateException(errorMessage)
+        }
     }
   }
 
@@ -45,7 +65,13 @@ case class ForumServiceClient @Inject()(ws: WSClient)(implicit ec: ExecutionCont
       .addQueryStringParameters("page" -> s"$page", "limit" -> s"$limit")
       .get() map {
       response =>
-        response.json.as[PagedResult[Reply]]
+        Try(response.json.as[PagedResult[Reply]]) match {
+          case Success(entries) => entries
+          case Failure(f) =>
+            val errorMessage = "Error while retrieving replies for topic"
+            Logger.error(errorMessage, f)
+            throw new IllegalStateException(errorMessage)
+        }
     }
   }
 
