@@ -7,12 +7,12 @@ import services.TopicService
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class HomeController @Inject()(indexTemplate: views.html.index, topicService: TopicService)(implicit assetsFinder: AssetsFinder)
+class HomeController @Inject()(topicService: TopicService)(implicit assetsFinder: AssetsFinder)
   extends InjectedController {
 
   def index(page: Int) = Action.async { _ =>
     topicService.list(page) map { topics =>
-      Ok(indexTemplate.render(topics))
+      Ok(views.html.index.render(topics))
     }
   }
 }

@@ -6,12 +6,12 @@ import services.ShowService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class ShowController @Inject()(showService: ShowService, showTemplate: views.html.show)(implicit assetsFinder: AssetsFinder)
+class ShowController @Inject()(showService: ShowService)(implicit assetsFinder: AssetsFinder)
   extends InjectedController {
 
   def index(id: Int, page: Int): Action[AnyContent] = Action.async { request =>
     showService.show(id, page) map { result =>
-      Ok(showTemplate.render(result._1, result._2))
+      Ok(views.html.show.render(result._1, result._2))
     }
   }
 }

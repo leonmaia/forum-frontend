@@ -3,7 +3,9 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel='stylesheet' href='@routes.Assets.versioned("lib/bootstrap/css/bootstrap.css")'>
         <link rel='stylesheet' href='@routes.Assets.versioned("stylesheets/main.css")'>
+
     </head>
     <body class="bg-light">
 
@@ -19,5 +21,6 @@
         <main role="main" class="container">
         @content
         </main>
+        <script src='@routes.Assets.versioned("lib/bootstrap/js/bootstrap.min.js")'></script>
     </body>
 </html>

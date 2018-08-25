@@ -11,7 +11,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 @Singleton
-class TopicCreationController @Inject()(indexTemplate: views.html.topic, topicService: TopicService)(implicit assetsFinder: AssetsFinder)
+class TopicCreationController @Inject()(topicService: TopicService)(implicit assetsFinder: AssetsFinder)
   extends InjectedController {
 
   val topicForm = Form(
@@ -24,7 +24,7 @@ class TopicCreationController @Inject()(indexTemplate: views.html.topic, topicSe
   )
 
   def index = Action.async { _ =>
-    Future(Ok(indexTemplate()))
+    Future(Ok(views.html.topic()))
   }
 
   def submit = Action.async { implicit request =>
