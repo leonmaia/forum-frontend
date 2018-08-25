@@ -3,7 +3,6 @@ package services
 import clients.ForumServiceClient
 import javax.inject.{Inject, Singleton}
 import models.{PagedResult, Reply}
-import play.api.libs.ws.WSResponse
 
 import scala.concurrent.Future
 
