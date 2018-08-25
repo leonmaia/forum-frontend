@@ -3,7 +3,12 @@
 
 Frontend for [Forum Service](https://github.com/leonmaia/forum)
 
-## Running with docker-compose
+## Building and Running with docker-compose
 ```bash
 $ sh scripts/start.sh
+```
+
+## Running with latest imagege from hub.docker
+```bash
+$ docker-compose up
 ```

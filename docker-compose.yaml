@@ -2,10 +2,10 @@ version: '3'
 services:
 
   frontend:
-    image: leonmaia/forum-frontend
+    image: leonmaia/forum-frontend:latest
     command: java -jar forum.jar
     ports:
-      - "8080"
+      - "9000:9000"
     environment:
       - FORUM_SERVICE_HOST=api
     depends_on:
@@ -14,10 +14,8 @@ services:
       - redisdb
 
   api:
-    image: leonmaia/forum-service
+    image: leonmaia/forum-service:latest
     command: java -jar forum.jar -http.port=:7719 -forumdb.host=forumdb -forumdb.user=user -forumdb.password=pass -redisdb.host=redisdb
-    ports:
-      - "9990:9990"
     expose:
       - "7719"
     depends_on:
