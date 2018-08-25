@@ -2,7 +2,7 @@
 
 GET     /                            controllers.HomeController.index(page: Int ?= 1)
 
-GET     /topics/:id/replies          controllers.ShowController.index(id: Int)
+GET     /topics/:id/replies          controllers.ShowController.index(id: Int, page: Int ?= 1)
 
 + nocsrf
 POST    /topics/:id/replies          controllers.ReplyCreationController.submit(id: Int)
