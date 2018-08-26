@@ -7,7 +7,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 scalaVersion := "2.12.6"
 
-mainClass in assembly := Some("play.core.server.ProdServerStart")
+mainClass in assembly := Some("play.core.server.DevServerStart")
 fullClasspath in assembly += Attributed.blank(PlayKeys.playPackageAssets.value)
 
 assemblyMergeStrategy in assembly := {
